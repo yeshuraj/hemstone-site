@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="css/style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
@@ -16,9 +16,9 @@
             <a href="index.html" class="logo">Hemant Joshi</a>
             <nav class="main-nav">
                 <button id="contactBtn" class="nav-button">Contact</button>
-                <button id="darkModeToggle" class="nav-button theme-toggle-button">
-                    <svg class="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
-                    <svg class="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+                <button id="darkModeToggle" class="nav-button theme-toggle-button" aria-label="Toggle Dark Mode">
+                    <svg class="sun" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+                    <svg class="moon" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
                 </button>
             </nav>
         </div>
@@ -26,9 +26,12 @@
 
     <div id="contactModal" class="modal">
         <div class="modal-content">
-            <button class="close-button">×</button>
+            <button class="close-button">&times;</button>
             <h3>Connect</h3>
             <div class="social-links">
+                <!-- ========================================================= -->
+                <!-- === REPLACE YOUR SOCIAL MEDIA LINKS HERE ================== -->
+                <!-- ========================================================= -->
                 <a href="https://instagram.com/your_handle" target="_blank">Instagram</a>
                 <a href="https://wa.me/910000000000" target="_blank">WhatsApp</a>
                 <a href="https://facebook.com/your_profile" target="_blank">Facebook</a>
@@ -38,18 +41,18 @@
 
     <main>
         <section id="hero-carousel">
-            <div class="carousel-container">
-                <div class="carousel-slide"><img src="https://images.unsplash.com/photo-1599818498305-1a8ab4580879?w=1920&q=80" alt="Sculpture detail 1"></div>
-                <div class="carousel-slide"><img src="https://images.unsplash.com/photo-1618281377501-88c2328cbb9a?w=1920&q=80" alt="Sculpture detail 2"></div>
-                <div class="carousel-slide"><img src="https://images.unsplash.com/photo-1598647998216-24329a43a7a4?w=1920&q=80" alt="Sculpture detail 3"></div>
+            <div class="carousel-container" id="carousel-container">
+                <!-- Panoramic images are dynamically loaded by script.js -->
             </div>
         </section>
 
-        <!-- About Section (no title) -->
         <section class="content-section">
             <div class="about-container">
                 <div class="about-image">
-                    <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=500&h=600&fit=crop&q=80" alt="Portrait of Hemant Joshi">
+                    <!-- ========================================================= -->
+                    <!-- === REPLACE THIS WITH YOUR FATHER'S PORTRAIT ============ -->
+                    <!-- ========================================================= -->
+                    <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=500&h=600&fit=crop&q=80" alt="Portrait of the artist">
                 </div>
                 <div class="about-text">
                     <p>Hemant Joshi is a sculptor whose work explores the intersection of traditional forms and modern sensibilities. With a career spanning over three decades, his creations in stone, metal, and wood evoke a sense of timelessness and deep emotional resonance.</p>
@@ -58,17 +61,16 @@
             </div>
         </section>
 
-        <!-- Portfolio Section (no title, will be populated by JS) -->
         <section class="content-section portfolio-section">
             <div class="portfolio-grid" id="portfolio-grid">
-                <!-- Images will be injected here by script.js -->
+                <!-- Portfolio images are dynamically loaded by script.js -->
             </div>
             <div id="loader" class="loader"></div>
         </section>
     </main>
     
     <footer class="main-footer">
-        <p>© 2024 Hemant Joshi. All rights reserved.</p>
+        <p>&copy; 2024 Hemant Joshi. All rights reserved.</p>
     </footer>
 
     <script src="js/script.js"></script>
