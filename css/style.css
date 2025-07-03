@@ -1,0 +1,46 @@
+// PASTE THIS ENTIRE FINAL CODE BLOCK INTO THE NEW CSS/STYLE.CSS FILE
+
+:root {
+    --background-light: #ffffff; --text-light: #1d1d1f; --subtle-text-light: #6e6e73; --border-light: #e5e5e5; --button-bg-light: rgba(255, 255, 255, 0.7); --modal-bg-light: #f5f5f7;
+    --background-dark: #121212; --text-dark: #f5f5f7; --subtle-text-dark: #a1a1a6; --border-dark: #333333; --button-bg-dark: rgba(20, 20, 20, 0.7); --modal-bg-dark: #1d1d1f;
+    --bg-color: var(--background-light); --text-color: var(--text-light); --icon-color: var(--subtle-text-light); --border-color: var(--border-light); --button-bg: var(--button-bg-light); --modal-bg: var(--modal-bg-light);
+}
+body.dark-mode { --bg-color: var(--background-dark); --text-color: var(--text-dark); --icon-color: var(--subtle-text-dark); --border-color: var(--border-dark); --button-bg: var(--button-bg-dark); --modal-bg: var(--modal-bg-dark); }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background-color: var(--bg-color); color: var(--text-color); transition: background-color 0.3s ease, color 0.3s ease; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+.main-header{position:fixed;top:0;left:0;width:100%;backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px);background-color:var(--button-bg);border-bottom:1px solid var(--border-color);z-index:1000;transition:background-color .3s ease,border-color .3s ease}.header-content{display:flex;justify-content:space-between;align-items:center;max-width:1100px;margin:0 auto;padding:14px 20px}.logo{font-size:18px;font-weight:600;color:var(--text-color);text-decoration:none}.main-nav{display:flex;align-items:center;gap:16px}
+.nav-button { font-family: inherit; font-weight: 400; background: none; border: none; padding: 5px; cursor: pointer; line-height: 1; color: var(--subtle-text-light); transition: color 0.2s ease; }
+.dark-mode .nav-button { color: var(--subtle-text-dark); }
+.nav-button:hover { color: var(--text-color); }
+#contactBtn { font-size: 16px; }
+#darkModeToggle { display: flex; align-items: center; justify-content: center; }
+#darkModeToggle svg { stroke: var(--icon-color); transition: stroke 0.2s ease; }
+#darkModeToggle:hover svg { stroke: var(--text-color); }
+.theme-toggle-button .sun { display: none; }
+.theme-toggle-button .moon { display: block; }
+.dark-mode .theme-toggle-button .sun { display: block; }
+.dark-mode .theme-toggle-button .moon { display: none; }
+main { padding-top: 65px; }
+.content-section { max-width: 1100px; margin: 0 auto; padding: 60px 20px; }
+#hero-carousel{width:100%;overflow:hidden;position:relative}.carousel-container{display:flex;height:100%;transition:transform .7s cubic-bezier(0.23, 1, 0.32, 1)}.carousel-slide{min-width:100%;height:55vh;max-height:500px}.carousel-slide img{width:100%;height:100%;object-fit:cover}
+.about-container{display:flex;align-items:center;gap:60px}.about-image{flex:0 0 300px}.about-image img{width:100%;border-radius:16px;object-fit:cover;aspect-ratio:1 / 1.2}.about-text{flex:1}.about-text p{font-size:18px;line-height:1.7;color:var(--subtle-text-light)}.about-text p:not(:last-child){margin-bottom:20px}
+.portfolio-section { padding-top: 20px; }
+.portfolio-grid { display: flex; flex-wrap: wrap; gap: 20px; }
+.portfolio-item { flex: 1 1 calc(33.333% - 20px); display: flex; }
+.portfolio-item img { width: 100%; height: auto; display: block; border-radius: 12px; object-fit: cover; opacity: 0; animation: fadeIn 0.5s forwards; }
+@keyframes fadeIn { to { opacity: 1; } }
+.loader{width:48px;height:48px;border:3px solid var(--icon-color);border-bottom-color:transparent;border-radius:50%;margin:40px auto;animation:rotation 1s linear infinite;display:none}.loader.visible{display:block}@keyframes rotation{0%{transform:rotate(0)}100%{transform:rotate(360deg)}}
+.main-footer{text-align:center;padding:40px 20px;border-top:1px solid var(--border-color);color:var(--subtle-text-light);font-size:14px}
+.modal{display:none;position:fixed;z-index:1001;left:0;top:0;width:100%;height:100%;background-color:rgba(0,0,0,.3);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);opacity:0;transition:opacity .3s ease}.modal.visible{display:block;opacity:1}.modal-content{background-color:var(--modal-bg);border:1px solid var(--border-color);border-radius:16px;padding:30px 40px;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) scale(.95);width:90%;max-width:320px;text-align:center;box-shadow:0 20px 40px rgba(0,0,0,0.1);transition:all .3s ease}.modal.visible .modal-content{transform:translate(-50%,-50%) scale(1)}.close-button{position:absolute;top:10px;right:15px;color:var(--subtle-text-light);font-size:28px;font-weight:700;background:none;border:none;cursor:pointer}.modal-content h3{font-size:24px;margin-bottom:20px;color:var(--text-color)}.social-links{display:flex;flex-direction:column;gap:15px}.social-links a{color:#007aff;text-decoration:none;font-size:18px;padding:10px;border-radius:8px;transition:background-color .2s ease}.social-links a:hover{background-color:rgba(0,122,255,.1)}
+@media (max-width: 768px) {
+    .carousel-slide { height: auto; aspect-ratio: 16 / 9; }
+    .about-container{flex-direction:column;gap:40px}.about-image{flex:0 0 auto;width:250px;max-width:70%}
+    .portfolio-item { flex-basis: calc(50% - 10px); }
+    .content-section { padding: 40px 15px; }
+}
+@media (max-width: 480px) {
+    .portfolio-item { flex-basis: 100%; }
+    .logo { font-size: 16px; }
+    .main-nav { gap: 8px; }
+}
