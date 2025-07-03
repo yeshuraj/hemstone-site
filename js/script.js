@@ -78,6 +78,12 @@ document.addEventListener('DOMContentLoaded', () => {
         const body = document.body;
         const contactBtn = document.getElementById('contactBtn');
         const contactModal = document.getElementById('contactModal');
+        
+        if(!darkModeToggle || !body || !contactBtn || !contactModal) {
+            console.error("A required element for event listeners was not found.");
+            return;
+        }
+
         const closeModalBtn = contactModal.querySelector('.close-button');
 
         // Dark Mode Logic
@@ -106,5 +112,5 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- Run Everything ---
     buildCarousel();
     buildPortfolio();
-    initializeEventListeners(); // This now correctly attaches the button clicks
+    initializeEventListeners();
 });
