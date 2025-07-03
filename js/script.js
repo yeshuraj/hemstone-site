@@ -1,5 +1,3 @@
-// PASTE THIS ENTIRE FINAL CODE BLOCK INTO THE NEW JS/SCRIPT.JS FILE
-
 document.addEventListener('DOMContentLoaded', () => {
 
     const totalPanoramicImages = 2;
@@ -8,14 +6,12 @@ document.addEventListener('DOMContentLoaded', () => {
     function buildCarousel() {
         const carouselContainer = document.getElementById('carousel-container');
         if (!carouselContainer || totalPanoramicImages === 0) return;
-
         for (let i = 1; i <= totalPanoramicImages; i++) {
             const slide = document.createElement('div');
             slide.className = 'carousel-slide';
             slide.innerHTML = `<img src="assets/panoramic/${i}.jpg" alt="Sculpture detail ${i}" loading="lazy">`;
             carouselContainer.appendChild(slide);
         }
-        
         if (totalPanoramicImages > 1) {
             let currentIndex = 0;
             setInterval(() => {
@@ -26,9 +22,16 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function buildPortfolio() {
-        const portfolioGrid = document.getElementById('portfolio-grid');
+        const grid = document.getElementById('portfolio-grid');
         const loader = document.getElementById('loader');
-        if (!portfolioGrid || !loader || totalPortfolioImages === 0) return;
+        if (!grid || !loader || totalPortfolioImages === 0) return;
+
+        const msnry = new Masonry(grid, {
+            itemSelector: '.portfolio-item',
+            columnWidth: '.portfolio-item',
+            percentPosition: true,
+            transitionDuration: '0.4s'
+        });
 
         const portfolioImageNumbers = Array.from({ length: totalPortfolioImages }, (_, i) => totalPortfolioImages - i);
         let currentImageIndex = 0;
@@ -39,26 +42,37 @@ document.addEventListener('DOMContentLoaded', () => {
                 loader.style.display = 'none'; return;
             }
             loader.classList.add('visible');
-            setTimeout(() => {
-                const fragment = document.createDocumentFragment();
-                const imagesToLoad = portfolioImageNumbers.slice(currentImageIndex, currentImageIndex + imagesPerLoad);
-                imagesToLoad.forEach((imageNumber, index) => {
-                    const item = document.createElement('div');
-                    item.className = 'portfolio-item';
-                    item.innerHTML = `<img src="assets/portfolio/${imageNumber}.jpg" alt="Artwork ${imageNumber}" loading="lazy" style="animation-delay: ${index * 100}ms;">`;
-                    fragment.appendChild(item);
-                });
-                portfolioGrid.appendChild(fragment);
-                currentImageIndex += imagesPerLoad;
+            
+            const fragment = document.createDocumentFragment();
+            const itemsToLoad = portfolioImageNumbers.slice(currentImageIndex, currentImageIndex + imagesPerLoad);
+            const itemElements = [];
+
+            itemsToLoad.forEach((imageNumber) => {
+                const item = document.createElement('div');
+                item.className = 'portfolio-item';
+                item.innerHTML = `<img src="assets/portfolio/${imageNumber}.jpg" alt="Artwork ${imageNumber}">`;
+                fragment.appendChild(item);
+                itemElements.push(item);
+            });
+            
+            grid.appendChild(fragment);
+            
+            imagesLoaded(grid).on('progress', () => {
                 loader.classList.remove('visible');
-                if (currentImageIndex >= portfolioImageNumbers.length) {
-                    loader.style.display = 'none';
-                }
-            }, 300);
+                msnry.appended(itemElements);
+                msnry.layout();
+            });
+
+            currentImageIndex += imagesPerLoad;
+            if (currentImageIndex >= portfolioImageNumbers.length) {
+                loader.style.display = 'none';
+            }
         }
+        
         const observer = new IntersectionObserver((entries) => {
             if (entries[0].isIntersecting) loadMoreImages();
         }, { rootMargin: "300px" });
+        
         observer.observe(loader);
         loadMoreImages();
     }
@@ -68,31 +82,17 @@ document.addEventListener('DOMContentLoaded', () => {
         const body = document.body;
         const contactBtn = document.getElementById('contactBtn');
         const contactModal = document.getElementById('contactModal');
-        
-        if(!darkModeToggle || !body || !contactBtn || !contactModal) {
-            console.error("A required element for event listeners was not found.");
-            return;
-        }
+        if(!darkModeToggle || !body || !contactBtn || !contactModal) return;
         const closeModalBtn = contactModal.querySelector('.close-button');
-
-        if (localStorage.getItem('theme') === 'dark') {
-            body.classList.add('dark-mode');
-        }
+        if (localStorage.getItem('theme') === 'dark') body.classList.add('dark-mode');
         darkModeToggle.addEventListener('click', () => {
             body.classList.toggle('dark-mode');
             localStorage.setItem('theme', body.classList.contains('dark-mode') ? 'dark' : 'light');
         });
-
-        contactBtn.addEventListener('click', () => {
-            contactModal.classList.add('visible');
-        });
-        closeModalBtn.addEventListener('click', () => {
-            contactModal.classList.remove('visible');
-        });
+        contactBtn.addEventListener('click', () => contactModal.classList.add('visible'));
+        closeModalBtn.addEventListener('click', () => contactModal.classList.remove('visible'));
         window.addEventListener('click', (event) => {
-            if (event.target == contactModal) {
-                contactModal.classList.remove('visible');
-            }
+            if (event.target == contactModal) contactModal.classList.remove('visible');
         });
     }
 
