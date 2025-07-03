@@ -1,93 +1,83 @@
 document.addEventListener('DOMContentLoaded', () => {
 
     // =========================================================================
-    // === DEMO VERSION - USING PLACEHOLDER IMAGES =============================
+    // === 1. MANAGE YOUR CONTENT HERE =========================================
     // =========================================================================
-    // This script uses placeholder URLs to show you the layout.
-    // The final version of this file (provided in the instructions) will
-    // build the gallery from your actual files.
+    // Update these numbers to match the total count of images in your folders.
+    // The image files MUST be named `1.jpg`, `2.jpg`, etc.
 
-    const panoramicImageUrls = [
-        "https://images.unsplash.com/photo-1599818498305-1a8ab4580879?w=1920&q=80",
-        "https://images.unsplash.com/photo-1618281377501-88c2328cbb9a?w=1920&q=80",
-        "https://images.unsplash.com/photo-1598647998216-24329a43a7a4?w=1920&q=80"
-    ];
-
-    // Different image dimensions to demonstrate the floating grid
-    const portfolioImageUrls = [
-        "https://images.unsplash.com/photo-1617886903279-c889fdf2a8a1?w=500&h=750&fit=crop&q=80", // Tall
-        "https://images.unsplash.com/photo-1518991277626-608f16104746?w=800&h=500&fit=crop&q=80", // Wide
-        "https://images.unsplash.com/photo-1580136579312-35a0273935a8?w=500&h=800&fit=crop&q=80", // Tall
-        "https://images.unsplash.com/photo-1620248743389-a2a404a39591?w=500&h=500&fit=crop&q=80", // Square
-        "https://images.unsplash.com/photo-1605371385478-3a47568582d6?w=500&q=80",
-        "https://images.unsplash.com/photo-1569949381669-ecf31ae8e613?w=500&h=600&fit=crop&q=80",
-        "https://images.unsplash.com/photo-1598647998216-24329a43a7a4?w=500&q=80",
-        "https://images.unsplash.com/photo-1618281377501-88c2328cbb9a?w=800&h=600&fit=crop&q=80", // Wide
-        "https://images.unsplash.com/photo-1599691456286-9a1b02b6628b?w=500&h=700&fit=crop&q=80", // Tall
-        "https://images.unsplash.com/photo-1558963244-a345b1453b61?w=500&q=80",
-    ].reverse(); // .reverse() to simulate newest appearing first
+    const totalPanoramicImages = 2;  // e.g., You have 3 images in assets/panoramic/
+    const totalPortfolioImages = 13; // e.g., You have 16 images in assets/portfolio/
 
     // =========================================================================
-    // === SCRIPT LOGIC (No need to edit below this line) ======================
+    // === 2. SCRIPT LOGIC (No need to edit below this line) ===================
     // =========================================================================
 
     // --- Dynamic Hero Carousel Builder ---
-    const carouselContainer = document.getElementById('carousel-container');
-    if (carouselContainer) {
-        panoramicImageUrls.forEach((url, index) => {
+    function buildCarousel() {
+        const carouselContainer = document.getElementById('carousel-container');
+        if (!carouselContainer || totalPanoramicImages === 0) return;
+
+        for (let i = 1; i <= totalPanoramicImages; i++) {
             const slide = document.createElement('div');
             slide.className = 'carousel-slide';
-            slide.innerHTML = `<img src="${url}" alt="Sculpture detail ${index + 1}" loading="lazy">`;
+            slide.innerHTML = `<img src="assets/panoramic/${i}.jpg" alt="Sculpture detail ${i}" loading="lazy">`;
             carouselContainer.appendChild(slide);
-        });
+        }
         
-        let currentIndex = 0;
-        const slides = carouselContainer.querySelectorAll('.carousel-slide');
-        const totalSlides = slides.length;
-        if (totalSlides > 1) {
+        if (totalPanoramicImages > 1) {
+            let currentIndex = 0;
             setInterval(() => {
-                currentIndex = (currentIndex + 1) % totalSlides;
+                currentIndex = (currentIndex + 1) % totalPanoramicImages;
                 carouselContainer.style.transform = `translateX(-${currentIndex * 100}%)`;
             }, 5000);
         }
     }
 
     // --- Dynamic "Infinite Scroll" Portfolio ---
-    const portfolioGrid = document.getElementById('portfolio-grid');
-    const loader = document.getElementById('loader');
-    const imagesPerLoad = 6;
-    let currentImageIndex = 0;
+    function buildPortfolio() {
+        const portfolioGrid = document.getElementById('portfolio-grid');
+        const loader = document.getElementById('loader');
+        if (!portfolioGrid || !loader || totalPortfolioImages === 0) return;
 
-    function loadMoreImages() {
-        if (currentImageIndex >= portfolioImageUrls.length) {
-            loader.style.display = 'none'; return;
-        }
-        loader.classList.add('visible');
-        setTimeout(() => {
-            const fragment = document.createDocumentFragment();
-            const imagesToLoad = portfolioImageUrls.slice(currentImageIndex, currentImageIndex + imagesPerLoad);
-            imagesToLoad.forEach((url, index) => {
-                const item = document.createElement('div');
-                item.className = 'portfolio-item';
-                item.innerHTML = `<img src="${url}" alt="Artwork" loading="lazy" style="animation-delay: ${index * 100}ms;">`;
-                fragment.appendChild(item);
-            });
-            portfolioGrid.appendChild(fragment);
-            currentImageIndex += imagesPerLoad;
-            if (currentImageIndex >= portfolioImageUrls.length) {
-                loader.style.display = 'none';
-            } else {
-                loader.classList.remove('visible');
+        const portfolioImageNumbers = Array.from({ length: totalPortfolioImages }, (_, i) => totalPortfolioImages - i);
+        let currentImageIndex = 0;
+        const imagesPerLoad = 6;
+
+        function loadMoreImages() {
+            if (currentImageIndex >= portfolioImageNumbers.length) {
+                loader.style.display = 'none'; return;
             }
-        }, 300);
+            loader.classList.add('visible');
+            setTimeout(() => {
+                const fragment = document.createDocumentFragment();
+                const imagesToLoad = portfolioImageNumbers.slice(currentImageIndex, currentImageIndex + imagesPerLoad);
+                imagesToLoad.forEach((imageNumber, index) => {
+                    const item = document.createElement('div');
+                    item.className = 'portfolio-item';
+                    item.innerHTML = `<img src="assets/portfolio/${imageNumber}.jpg" alt="Artwork ${imageNumber}" loading="lazy" style="animation-delay: ${index * 100}ms;">`;
+                    fragment.appendChild(item);
+                });
+                portfolioGrid.appendChild(fragment);
+                currentImageIndex += imagesPerLoad;
+                loader.classList.remove('visible');
+                if (currentImageIndex >= portfolioImageNumbers.length) {
+                    loader.style.display = 'none';
+                }
+            }, 300);
+        }
+        const observer = new IntersectionObserver((entries) => {
+            if (entries[0].isIntersecting) loadMoreImages();
+        }, { rootMargin: "300px" });
+        observer.observe(loader);
+        loadMoreImages();
     }
-    const observer = new IntersectionObserver((entries) => {
-        if (entries[0].isIntersecting) loadMoreImages();
-    }, { rootMargin: "300px" });
-    if (loader) observer.observe(loader);
-    if (portfolioGrid) loadMoreImages();
 
-    // --- Dark Mode & Modal Logic (Unchanged) ---
+    // --- Initialize everything ---
+    buildCarousel();
+    buildPortfolio();
+
+    // --- Dark Mode & Modal Logic ---
     const darkModeToggle = document.getElementById('darkModeToggle');
     const body = document.body;
     if (localStorage.getItem('theme') === 'dark') body.classList.add('dark-mode');
