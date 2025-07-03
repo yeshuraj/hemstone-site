@@ -1,59 +1,51 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', () => {
 
-    // --- YOUR EXISTING SMOOTH SCROLL SCRIPT (MODIFIED) ---
-    // This now selects all anchor links that start with '#' EXCEPT for the one with the id 'contact-btn'.
-    document.querySelectorAll('a[href^="#"]:not(#contact-btn)').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-            e.preventDefault();
+    // --- Theme Toggling Functionality ---
+    const themeToggle = document.getElementById('theme-toggle');
 
-            const targetElement = document.querySelector(this.getAttribute('href'));
-            if (targetElement) {
-                targetElement.scrollIntoView({
-                    behavior: 'smooth'
-                });
-            }
-        });
+    // Function to apply the saved theme on page load
+    const applyTheme = () => {
+        const savedTheme = localStorage.getItem('theme');
+        
+        // Check for saved theme in localStorage. If none, check OS preference.
+        if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.body.classList.add('dark-mode');
+        } else {
+            document.body.classList.remove('dark-mode');
+        }
+    };
+
+    // Add click event listener to the toggle button
+    themeToggle.addEventListener('click', () => {
+        document.body.classList.toggle('dark-mode');
+        
+        // Save the user's preference to localStorage
+        if (document.body.classList.contains('dark-mode')) {
+            localStorage.setItem('theme', 'dark');
+        } else {
+            localStorage.setItem('theme', 'light');
+        }
     });
 
-    // --- NEW POP-UP MODAL SCRIPT ---
-    const modal = document.getElementById('contact-modal');
-    const contactBtn = document.getElementById('contact-btn');
-    const closeBtn = document.querySelector('.close-btn');
+    // Apply the theme when the page loads
+    applyTheme();
 
-    // Check if all modal elements exist before adding listeners
-    if (modal && contactBtn && closeBtn) {
-        // Function to open the modal
-        function openModal() {
-            modal.style.display = 'flex';
-        }
 
-        // Function to close the modal
-        function closeModal() {
-            modal.style.display = 'none';
-        }
-
-        // When the user clicks the "Contact" button, open the modal
-        contactBtn.addEventListener('click', function(event) {
-            event.preventDefault(); // Prevent the link from trying to navigate
-            openModal();
-        });
-
-        // When the user clicks on the <span> (x), close the modal
-        closeBtn.addEventListener('click', closeModal);
-
-        // When the user clicks anywhere outside of the modal content, close it
-        window.addEventListener('click', function(event) {
-            if (event.target == modal) {
-                closeModal();
+    // --- Apple-like "Fade on Scroll" Animation ---
+    const revealElements = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('active');
+                observer.unobserve(entry.target);
             }
         });
+    }, {
+        threshold: 0.1
+    });
 
-        // Optional: Close the modal if the user presses the "Escape" key
-        window.addEventListener('keydown', function(event) {
-            if (event.key === 'Escape') {
-                closeModal();
-            }
-        });
-    }
+    revealElements.forEach(el => {
+        observer.observe(el);
+    });
 
 });

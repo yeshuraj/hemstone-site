@@ -1,147 +1,245 @@
-/* Basic Styles */
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    line-height: 1.6;
-    background-color: #f4f4f4;
-    color: #333;
+:root {
+    /* --- Light Theme (Default) --- */
+    --bg-color: #f5f5f7;
+    --text-primary: #1d1d1f;
+    --text-secondary: #515154;
+    --accent-color: #0066cc;
+    --subtle-bg: rgba(0, 0, 0, 0.05);
+    --subtle-border: rgba(0, 0, 0, 0.15);
+    --header-bg: rgba(245, 245, 247, 0.7);
+    --hero-overlay: rgba(255, 255, 255, 0.2);
+
+    --font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --transition-speed: 0.3s;
 }
 
-header {
-    background: #333;
-    color: #fff;
-    padding: 1rem 0;
-    text-align: center;
+body.dark-mode {
+    /* --- Dark Theme Overrides --- */
+    --bg-color: #111111;
+    --text-primary: #f5f5f7;
+    --text-secondary: #a1a1a6;
+    --accent-color: #2997ff;
+    --subtle-bg: rgba(255, 255, 255, 0.1);
+    --subtle-border: rgba(255, 255, 255, 0.1);
+    --header-bg: rgba(17, 17, 17, 0.8);
+    --hero-overlay: rgba(0, 0, 0, 0.4);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+    font-family: var(--font-family);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    transition: background-color var(--transition-speed) ease, color var(--transition-speed) ease;
+}
+
+/* --- Header & Theme Toggle --- */
+.site-header {
     position: fixed;
     width: 100%;
     top: 0;
     z-index: 100;
+    background: var(--header-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--subtle-border);
+    transition: background-color var(--transition-speed) ease, border-color var(--transition-speed) ease;
 }
 
-header h1 {
-    margin: 0;
+.header-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1.25rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
-nav ul {
-    padding: 0;
-    list-style: none;
-}
-
-nav ul li {
-    display: inline;
-    margin-right: 20px;
-}
-
-nav a {
-    color: #fff;
+.logo {
+    font-weight: 600;
+    font-size: 1.2rem;
     text-decoration: none;
+    color: var(--text-primary);
 }
 
-main {
-    padding-top: 80px; /* Adjust based on header height */
+.header-controls {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
 }
 
-section {
-    padding: 20px;
-    margin: 0 20px;
-    border-bottom: 1px solid #ddd;
+.contact-link {
+    font-size: 0.9rem;
+    font-weight: 400;
+    text-decoration: none;
+    color: var(--text-primary);
+    background: var(--subtle-bg);
+    padding: 8px 16px;
+    border-radius: 20px;
+    transition: background var(--transition-speed), color var(--transition-speed);
+}
+.contact-link:hover {
+    background: var(--text-primary);
+    color: var(--bg-color);
 }
 
-.hero {
-    background-color: #333;
-    color: white;
-    padding: 100px 20px;
-    text-align: center;
-}
-
-footer {
-    text-align: center;
-    padding: 20px;
-    background: #333;
-    color: #fff;
-}
-
-/* ==================
-   Pop-up Modal Styles
-   ================== */
-
-.modal {
-    display: none; 
-    position: fixed;
-    z-index: 1000;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgba(0, 0, 0, 0.6);
+#theme-toggle {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 6px;
+    border-radius: 50%;
+    display: flex;
     align-items: center;
     justify-content: center;
 }
-
-.modal-content {
-    background-color: #fefefe;
-    color: #333;
-    padding: 30px 40px;
-    border: 1px solid #888;
-    width: 90%;
-    max-width: 400px;
-    border-radius: 10px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-    text-align: center;
-    position: relative;
-    animation: fadeIn 0.3s ease-in-out;
+#theme-toggle:hover {
+    background: var(--subtle-bg);
+}
+#theme-toggle svg {
+    width: 20px;
+    height: 20px;
+    color: var(--text-secondary);
 }
 
-@keyframes fadeIn {
-    from {transform: translateY(-20px); opacity: 0;}
-    to {transform: translateY(0); opacity: 1;}
-}
+/* Logic to show the correct icon */
+.icon-moon { display: block; }
+.icon-sun { display: none; }
 
-.close-btn {
-    color: #aaa;
-    position: absolute;
-    top: 10px;
-    right: 20px;
-    font-size: 28px;
-    font-weight: bold;
-    transition: color 0.3s;
-}
+body.dark-mode .icon-moon { display: none; }
+body.dark-mode .icon-sun { display: block; }
 
-.close-btn:hover,
-.close-btn:focus {
-    color: #000;
-    text-decoration: none;
-    cursor: pointer;
-}
-
-.social-links {
-    margin: 25px 0;
+/* --- Hero Section --- */
+.hero-section {
+    /* ... (no changes here) */
+    height: 100vh;
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding-top: 0; 
+    position: relative;
+    overflow: hidden;
 }
 
-.social-link {
-    display: block;
-    padding: 12px 20px;
-    background-color: #333;
-    color: white;
-    text-decoration: none;
-    border-radius: 5px;
-    transition: background-color 0.3s, transform 0.2s;
-    font-weight: 500;
-    font-size: 1.1em;
+.hero-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('images/hero-background.jpg') no-repeat center center/cover;
+    transition: filter var(--transition-speed) ease;
+}
+.hero-background::after { /* NEW: Using a pseudo-element for the overlay */
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--hero-overlay);
+    transition: background-color var(--transition-speed) ease;
 }
 
-.social-link:hover {
-    background-color: #555;
-    transform: translateY(-2px);
+.hero-content {
+    /* ... (no changes here) */
+    position: relative;
+    z-index: 2;
 }
 
-.modal-note {
-    margin-top: 20px;
-    font-size: 0.8em;
-    color: #777;
+/* Light theme hero text should be dark */
+h1 {
+    font-size: 5rem;
+    font-weight: 700;
+    letter-spacing: -2px;
+    color: var(--text-primary);
+}
+
+.hero-tagline {
+    font-size: 1.5rem;
+    font-weight: 300;
+    color: var(--text-secondary);
+    margin-top: 1rem;
+}
+
+/* Dark theme hero text needs to be light to be visible */
+body.dark-mode .hero-content h1,
+body.dark-mode .hero-content .hero-tagline {
+    color: #fff;
+}
+
+/* --- Contact Section --- */
+.contact-section {
+    background-color: var(--bg-color); /* Use variable now */
+    border-top: 1px solid var(--subtle-border);
+    transition: background-color var(--transition-speed) ease, border-color var(--transition-speed) ease;
+}
+body.dark-mode .contact-section {
+    background-color: #000; /* Special case for a deep black footer in dark mode */
+}
+/* ... rest of the CSS from previous answer ... */
+/* All other styles (intro-section, artwork-section, about-section, footer, animations, responsive) remain the same */
+/* They will automatically work because they use the CSS variables we defined. */
+
+/* === PASTE THE REST OF THE CSS FROM THE PREVIOUS ANSWER BELOW THIS LINE === */
+
+/* --- General Section Styling --- */
+section { padding: 8rem 2rem; border-bottom: 1px solid var(--subtle-border); transition: border-color var(--transition-speed) ease; }
+section:last-of-type { border-bottom: none; }
+.text-container { max-width: 800px; margin: 0 auto; text-align: center; }
+
+/* --- Intro Section & Text Styling --- */
+.intro-section { padding: 10rem 2rem; }
+h2 { font-size: 3.5rem; font-weight: 600; letter-spacing: -1.5px; line-height: 1.1; }
+p { font-size: 1.25rem; line-height: 1.6; color: var(--text-secondary); max-width: 650px; margin: 1.5rem auto 0; }
+
+/* --- Artwork Showcase --- */
+.artwork-section { padding: 6rem 2rem; }
+.artwork-container { max-width: 1200px; margin: 0 auto; display: flex; gap: 4rem; align-items: center; }
+.artwork-container.reverse { flex-direction: row-reverse; }
+.artwork-image { flex: 1.2; }
+.artwork-image img { width: 100%; border-radius: 20px; display: block; }
+.artwork-text { flex: 1; text-align: left; }
+.artwork-text h3 { font-size: 2.5rem; font-weight: 600; }
+.artwork-text p { text-align: left; margin: 1rem 0; font-size: 1.1rem; }
+.artwork-text span { font-size: 1rem; color: var(--text-secondary); display: block; margin-top: 1.5rem; }
+
+/* --- About Section --- */
+.artist-photo-container { max-width: 1000px; margin: 4rem auto 0; }
+.artist-photo-container img { width: 100%; border-radius: 20px; }
+
+/* --- Contact CTA Button --- */
+.cta-button { display: inline-block; background-color: var(--accent-color); color: white; font-size: 1.1rem; font-weight: 500; text-decoration: none; padding: 1rem 2rem; border-radius: 30px; margin-top: 2rem; transition: transform 0.3s ease, background-color 0.3s ease; }
+.cta-button:hover { transform: scale(1.05); filter: brightness(1.1); }
+
+/* --- Footer --- */
+.site-footer { text-align: center; padding: 3rem 2rem; font-size: 0.9rem; color: var(--text-secondary); }
+
+/* --- Animation Class --- */
+.reveal { opacity: 0; transform: translateY(30px); transition: opacity 1s ease-out, transform 1s ease-out; }
+.reveal.active { opacity: 1; transform: translateY(0); }
+
+/* --- Responsive Design --- */
+@media (max-width: 768px) {
+    h1 { font-size: 3rem; letter-spacing: -1px; }
+    h2 { font-size: 2.5rem; }
+    p { font-size: 1.1rem; }
+    section { padding: 6rem 1rem; }
+    .header-container { padding: 1rem; }
+    .artwork-container, .artwork-container.reverse { flex-direction: column; gap: 2rem; }
+    .artwork-text { text-align: center; }
+    .artwork-text p, .artwork-text span { text-align: center; margin-left: auto; margin-right: auto; }
 }
