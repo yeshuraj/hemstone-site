@@ -1,16 +1,17 @@
+// PASTE THIS ENTIRE CODE BLOCK INTO JS/SCRIPT.JS
+
 document.addEventListener('DOMContentLoaded', () => {
 
     // =========================================================================
-    // === 1. MANAGE YOUR CONTENT HERE =========================================
+    // === 1. YOUR LIVE CONTENT CONFIGURATION ==================================
     // =========================================================================
-    // Update these numbers to match the total count of images in your folders.
-    // The image files MUST be named `1.jpg`, `2.jpg`, etc.
-
-    const totalPanoramicImages = 2;  // e.g., You have 3 images in assets/panoramic/
-    const totalPortfolioImages = 13; // e.g., You have 16 images in assets/portfolio/
+    // Updated to match your repository's image count.
+    
+    const totalPanoramicImages = 2;  // Correctly set to your 2 panoramic images
+    const totalPortfolioImages = 13; // Correctly set to your 13 portfolio images
 
     // =========================================================================
-    // === 2. SCRIPT LOGIC (No need to edit below this line) ===================
+    // === 2. SCRIPT LOGIC (Production Version) ================================
     // =========================================================================
 
     // --- Dynamic Hero Carousel Builder ---
@@ -21,6 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
         for (let i = 1; i <= totalPanoramicImages; i++) {
             const slide = document.createElement('div');
             slide.className = 'carousel-slide';
+            // This line now correctly uses your local files
             slide.innerHTML = `<img src="assets/panoramic/${i}.jpg" alt="Sculpture detail ${i}" loading="lazy">`;
             carouselContainer.appendChild(slide);
         }
@@ -40,6 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const loader = document.getElementById('loader');
         if (!portfolioGrid || !loader || totalPortfolioImages === 0) return;
 
+        // Creates an array like [13, 12, 11, ...] so the newest image (highest number) is first
         const portfolioImageNumbers = Array.from({ length: totalPortfolioImages }, (_, i) => totalPortfolioImages - i);
         let currentImageIndex = 0;
         const imagesPerLoad = 6;
@@ -55,6 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 imagesToLoad.forEach((imageNumber, index) => {
                     const item = document.createElement('div');
                     item.className = 'portfolio-item';
+                    // This line now correctly uses your local portfolio files
                     item.innerHTML = `<img src="assets/portfolio/${imageNumber}.jpg" alt="Artwork ${imageNumber}" loading="lazy" style="animation-delay: ${index * 100}ms;">`;
                     fragment.appendChild(item);
                 });
