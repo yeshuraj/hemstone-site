@@ -1,17 +1,15 @@
-// PASTE THIS ENTIRE CODE BLOCK INTO JS/SCRIPT.JS
+// PASTE THIS ENTIRE CORRECTED CODE BLOCK INTO JS/SCRIPT.JS
 
 document.addEventListener('DOMContentLoaded', () => {
 
     // =========================================================================
     // === 1. YOUR LIVE CONTENT CONFIGURATION ==================================
     // =========================================================================
-    // Updated to match your repository's image count.
-    
-    const totalPanoramicImages = 2;  // Correctly set to your 2 panoramic images
-    const totalPortfolioImages = 13; // Correctly set to your 13 portfolio images
+    const totalPanoramicImages = 2;
+    const totalPortfolioImages = 13;
 
     // =========================================================================
-    // === 2. SCRIPT LOGIC (Production Version) ================================
+    // === 2. ROBUST SCRIPT LOGIC (FIXED) ======================================
     // =========================================================================
 
     // --- Dynamic Hero Carousel Builder ---
@@ -22,7 +20,6 @@ document.addEventListener('DOMContentLoaded', () => {
         for (let i = 1; i <= totalPanoramicImages; i++) {
             const slide = document.createElement('div');
             slide.className = 'carousel-slide';
-            // This line now correctly uses your local files
             slide.innerHTML = `<img src="assets/panoramic/${i}.jpg" alt="Sculpture detail ${i}" loading="lazy">`;
             carouselContainer.appendChild(slide);
         }
@@ -36,13 +33,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // --- Dynamic "Infinite Scroll" Portfolio ---
+    // --- Dynamic Portfolio Builder ---
     function buildPortfolio() {
         const portfolioGrid = document.getElementById('portfolio-grid');
         const loader = document.getElementById('loader');
         if (!portfolioGrid || !loader || totalPortfolioImages === 0) return;
 
-        // Creates an array like [13, 12, 11, ...] so the newest image (highest number) is first
         const portfolioImageNumbers = Array.from({ length: totalPortfolioImages }, (_, i) => totalPortfolioImages - i);
         let currentImageIndex = 0;
         const imagesPerLoad = 6;
@@ -58,7 +54,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 imagesToLoad.forEach((imageNumber, index) => {
                     const item = document.createElement('div');
                     item.className = 'portfolio-item';
-                    // This line now correctly uses your local portfolio files
                     item.innerHTML = `<img src="assets/portfolio/${imageNumber}.jpg" alt="Artwork ${imageNumber}" loading="lazy" style="animation-delay: ${index * 100}ms;">`;
                     fragment.appendChild(item);
                 });
@@ -76,25 +71,40 @@ document.addEventListener('DOMContentLoaded', () => {
         observer.observe(loader);
         loadMoreImages();
     }
+    
+    // --- Attach All Event Listeners ---
+    function initializeEventListeners() {
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const body = document.body;
+        const contactBtn = document.getElementById('contactBtn');
+        const contactModal = document.getElementById('contactModal');
+        const closeModalBtn = contactModal.querySelector('.close-button');
 
-    // --- Initialize everything ---
+        // Dark Mode Logic
+        if (localStorage.getItem('theme') === 'dark') {
+            body.classList.add('dark-mode');
+        }
+        darkModeToggle.addEventListener('click', () => {
+            body.classList.toggle('dark-mode');
+            localStorage.setItem('theme', body.classList.contains('dark-mode') ? 'dark' : 'light');
+        });
+
+        // Contact Modal Logic
+        contactBtn.addEventListener('click', () => {
+            contactModal.classList.add('visible');
+        });
+        closeModalBtn.addEventListener('click', () => {
+            contactModal.classList.remove('visible');
+        });
+        window.addEventListener('click', (event) => {
+            if (event.target == contactModal) {
+                contactModal.classList.remove('visible');
+            }
+        });
+    }
+
+    // --- Run Everything ---
     buildCarousel();
     buildPortfolio();
-
-    // --- Dark Mode & Modal Logic ---
-    const darkModeToggle = document.getElementById('darkModeToggle');
-    const body = document.body;
-    if (localStorage.getItem('theme') === 'dark') body.classList.add('dark-mode');
-    darkModeToggle.addEventListener('click', () => {
-        body.classList.toggle('dark-mode');
-        localStorage.setItem('theme', body.classList.contains('dark-mode') ? 'dark' : 'light');
-    });
-    const contactBtn = document.getElementById('contactBtn');
-    const contactModal = document.getElementById('contactModal');
-    const closeModalBtn = contactModal.querySelector('.close-button');
-    contactBtn.addEventListener('click', () => contactModal.classList.add('visible'));
-    closeModalBtn.addEventListener('click', () => contactModal.classList.remove('visible'));
-    window.addEventListener('click', (event) => {
-        if (event.target == contactModal) contactModal.classList.remove('visible');
-    });
+    initializeEventListeners(); // This now correctly attaches the button clicks
 });
