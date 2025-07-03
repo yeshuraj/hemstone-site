@@ -44,12 +44,51 @@ body {
 .main-header{position:fixed;top:0;left:0;width:100%;backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px);background-color:var(--button-bg);border-bottom:1px solid var(--border-color);z-index:1000;transition:background-color .3s ease,border-color .3s ease}.header-content{display:flex;justify-content:space-between;align-items:center;max-width:1100px;margin:0 auto;padding:14px 20px}.logo{font-size:18px;font-weight:600;color:var(--text-color);text-decoration:none}.main-nav{display:flex;align-items:center;gap:12px}
 
 /* NEW: Clean, subtle icon button styles */
-.nav-button{background:none;border:none;padding:5px;cursor:pointer;line-height:0;border-radius:50%;transition:opacity .2s ease, background-color .2s ease}
+/* .nav-button{background:none;border:none;padding:5px;cursor:pointer;line-height:0;border-radius:50%;transition:opacity .2s ease, background-color .2s ease}
 .nav-button svg { stroke: var(--icon-color); transition: stroke .2s ease; }
 .nav-button:hover svg { stroke: var(--text-color); }
 .nav-button:hover { opacity: 0.8; }
 .dark-mode .theme-toggle-button .moon{display:block}.dark-mode .theme-toggle-button .sun{display:none}
-.theme-toggle-button .moon{display:none}.theme-toggle-button .sun{display:block}
+.theme-toggle-button .moon{display:none}.theme-toggle-button .sun{display:block} */
+
+/* REPLACE WITH THIS NEW CSS BLOCK */
+.nav-button {
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 400;
+    background: none;
+    border: none;
+    padding: 5px;
+    cursor: pointer;
+    line-height: 1;
+    color: var(--subtle-text-light); /* Start with subtle color */
+    transition: color 0.2s ease;
+}
+.dark-mode .nav-button {
+    color: var(--subtle-text-dark);
+}
+.nav-button:hover {
+    color: var(--text-color); /* Highlight to main text color on hover */
+}
+#darkModeToggle { /* Make the dark mode toggle take up no extra space */
+    padding: 2px;
+}
+#darkModeToggle svg {
+    stroke: var(--icon-color);
+    transition: stroke 0.2s ease;
+}
+#darkModeToggle:hover svg {
+    stroke: var(--text-color);
+}
+
+/* NEW: Logic to show the opposite theme icon */
+/* In light mode, show the moon to switch TO dark */
+.theme-toggle-button .sun { display: none; }
+.theme-toggle-button .moon { display: block; }
+/* In dark mode, show the sun to switch TO light */
+.dark-mode .theme-toggle-button .sun { display: block; }
+.dark-mode .theme-toggle-button .moon { display: none; }
+
 
 /* --- Main Content --- */
 main { padding-top: 65px; }
