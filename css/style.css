@@ -1,4 +1,3 @@
-// PASTE THIS ENTIRE CODE BLOCK INTO CSS/STYLE.CSS
 
 /* --- Global Styles & Variables --- */
 :root {
@@ -45,7 +44,7 @@ body {
 /* --- Subtle Header --- */
 .main-header{position:fixed;top:0;left:0;width:100%;backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px);background-color:var(--button-bg);border-bottom:1px solid var(--border-color);z-index:1000;transition:background-color .3s ease,border-color .3s ease}.header-content{display:flex;justify-content:space-between;align-items:center;max-width:1100px;margin:0 auto;padding:14px 20px}.logo{font-size:18px;font-weight:600;color:var(--text-color);text-decoration:none}.main-nav{display:flex;align-items:center;gap:16px}
 
-/* NEW & IMPROVED BUTTON STYLES */
+/* --- Corrected Button Styles --- */
 .nav-button {
     font-family: inherit;
     font-weight: 400;
@@ -63,14 +62,13 @@ body {
 .nav-button:hover {
     color: var(--text-color);
 }
-/* Style for Contact button specifically */
 #contactBtn {
     font-size: 16px; /* Made the contact button bigger */
 }
-/* Style for dark mode toggle specifically */
 #darkModeToggle {
-    font-size: 0; /* Ensures only SVG is visible */
-    padding: 2px;
+    display: flex; /* Ensures the SVG inside is visible */
+    align-items: center;
+    justify-content: center;
 }
 #darkModeToggle svg {
     stroke: var(--icon-color);
@@ -81,13 +79,10 @@ body {
 }
 
 /* Corrected Logic to show the opposite theme icon */
-/* In light mode, show the moon to switch TO dark */
 .theme-toggle-button .sun { display: none; }
 .theme-toggle-button .moon { display: block; }
-/* In dark mode, show the sun to switch TO light */
 .dark-mode .theme-toggle-button .sun { display: block; }
 .dark-mode .theme-toggle-button .moon { display: none; }
-
 
 /* --- Main Content --- */
 main { padding-top: 65px; }
@@ -95,15 +90,24 @@ main { padding-top: 65px; }
 #hero-carousel{width:100%;overflow:hidden;position:relative}.carousel-container{display:flex;height:100%;transition:transform .7s cubic-bezier(0.23, 1, 0.32, 1)}.carousel-slide{min-width:100%;height:55vh;max-height:500px}.carousel-slide img{width:100%;height:100%;object-fit:cover}
 .about-container{display:flex;align-items:center;gap:60px}.about-image{flex:0 0 300px}.about-image img{width:100%;border-radius:16px;object-fit:cover;aspect-ratio:1 / 1.2}.about-text{flex:1}.about-text p{font-size:18px;line-height:1.7;color:var(--subtle-text-light)}.about-text p:not(:last-child){margin-bottom:20px}
 
-/* --- Floating Portfolio Grid (Masonry) --- */
+/* --- PORTFOLIO LAYOUT: Changed from Masonry to Flexbox for ordering --- */
 .portfolio-section { padding-top: 20px; }
-.portfolio-grid { column-count: 3; column-gap: 20px; }
-.portfolio-item { margin-bottom: 20px; break-inside: avoid; }
+.portfolio-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px; /* This creates space between all items */
+}
+.portfolio-item {
+    /* Each item will grow but not shrink, aiming for a 3-column layout */
+    flex: 1 1 calc(33.333% - 20px);
+    display: flex; /* Helps align the image perfectly within the item */
+}
 .portfolio-item img {
     width: 100%;
     height: auto;
     display: block;
     border-radius: 12px;
+    object-fit: cover;
     opacity: 0;
     animation: fadeIn 0.5s forwards;
 }
@@ -114,14 +118,20 @@ main { padding-top: 65px; }
 .main-footer{text-align:center;padding:40px 20px;border-top:1px solid var(--border-color);color:var(--subtle-text-light);font-size:14px}
 .modal{display:none;position:fixed;z-index:1001;left:0;top:0;width:100%;height:100%;background-color:rgba(0,0,0,.3);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);opacity:0;transition:opacity .3s ease}.modal.visible{display:block;opacity:1}.modal-content{background-color:var(--modal-bg);border:1px solid var(--border-color);border-radius:16px;padding:30px 40px;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) scale(.95);width:90%;max-width:320px;text-align:center;box-shadow:0 20px 40px rgba(0,0,0,0.1);transition:all .3s ease}.modal.visible .modal-content{transform:translate(-50%,-50%) scale(1)}.close-button{position:absolute;top:10px;right:15px;color:var(--subtle-text-light);font-size:28px;font-weight:700;background:none;border:none;cursor:pointer}.modal-content h3{font-size:24px;margin-bottom:20px;color:var(--text-color)}.social-links{display:flex;flex-direction:column;gap:15px}.social-links a{color:#007aff;text-decoration:none;font-size:18px;padding:10px;border-radius:8px;transition:background-color .2s ease}.social-links a:hover{background-color:rgba(0,122,255,.1)}
 
-/* --- Responsive Design --- */
+/* --- Responsive Design for Flexbox --- */
 @media (max-width: 768px) {
     .about-container{flex-direction:column;gap:40px}.about-image{flex:0 0 auto;width:250px;max-width:70%}
-    .portfolio-grid { column-count: 2; column-gap: 15px; }
+    .portfolio-item {
+        /* 2 columns on tablet */
+        flex-basis: calc(50% - 10px);
+    }
     .content-section { padding: 40px 15px; }
 }
 @media (max-width: 480px) {
-    .portfolio-grid { column-count: 1; }
+    .portfolio-item {
+        /* 1 column on mobile */
+        flex-basis: 100%;
+    }
     .logo { font-size: 16px; }
     .main-nav { gap: 8px; }
 }
